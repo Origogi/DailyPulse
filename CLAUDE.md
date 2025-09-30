@@ -95,3 +95,10 @@ xcrun simctl launch "DEVICE_ID" com.origogi.dailypulse.DailyPulse  # 앱 실행
 - 플랫폼별 기능이 필요하면 expect/actual 패턴 사용
 - iOS 프레임워크는 static으로 빌드됨
 - 리소스는 composeApp/src/commonMain/composeResources에 배치
+
+## Claude Code 작업 지침
+- **iOS 빌드 및 실행 요청 시**: 사용자 피드백을 기다리지 말고 즉시 다음 작업을 수행
+  1. 시뮬레이터 상태 확인 (필요시 부팅)
+  2. clean build 실행
+  3. 앱 설치 및 실행
+  4. 완료 후 결과만 간단히 보고

@@ -1,7 +1,10 @@
 package com.origogi.dailypulse
 
-interface Platform {
-    val name: String
-}
+expect object Platform {
+    val osName : String
+    val osVersion : String
+    val deviceModel : String
+    val density : Int
 
-expect fun getPlatform(): Platform
+    fun logSystemInfo()
+}
