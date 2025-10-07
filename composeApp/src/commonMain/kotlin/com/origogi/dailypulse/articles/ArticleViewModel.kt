@@ -54,24 +54,24 @@ private val mockArticles = listOf(
         title = "Robinhood Expands Cryptocurrency Offerings",
         description = "Platform adds support for 15 new cryptocurrencies including emerging altcoins.",
         date = "2025-10-01",
-        imageUrl = "https://picsum.photos/seed/robinhood2/400/300"
+        imageUrl = "https://byline.network/wp-content/uploads/2021/02/robinhood_logo_main-1280x720.jpg"
     ),
     Article(
         title = "Robinhood Gold Membership Hits 2 Million Users",
         description = "Premium subscription service sees massive growth as users seek advanced trading features.",
         date = "2025-09-30",
-        imageUrl = "https://picsum.photos/seed/robinhood3/400/300"
+        imageUrl = "https://byline.network/wp-content/uploads/2021/02/robinhood_logo_main-1280x720.jpg"
     ),
     Article(
         title = "Robinhood Partners with Major Banks",
         description = "Strategic partnerships announced to enhance banking services and credit card offerings.",
         date = "2025-09-29",
-        imageUrl = "https://picsum.photos/seed/robinhood4/400/300"
+        imageUrl = "https://byline.network/wp-content/uploads/2021/02/robinhood_logo_main-1280x720.jpg"
     ),
     Article(
         title = "Robinhood Reports Record Trading Volume",
         description = "Q3 earnings show unprecedented user engagement and trading activity on the platform.",
         date = "2025-09-28",
-        imageUrl = "https://picsum.photos/seed/robinhood5/400/300"
+        imageUrl = "https://byline.network/wp-content/uploads/2021/02/robinhood_logo_main-1280x720.jpg"
     )
 )

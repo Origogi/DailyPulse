@@ -12,6 +12,6 @@ struct ComposeView: UIViewControllerRepresentable {
 
 struct ContentView: View {
     var body: some View {
-        AboutScreen()
+        ArticlesScreen(viewModel: .init())
     }
 }
