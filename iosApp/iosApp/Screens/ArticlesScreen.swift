@@ -83,7 +83,7 @@ struct ArticlesScreen: View {
 
 private struct AppBar: View {
     var body: some View {
-        Text("Atticles")
+        Text("Articles")
             .font(.largeTitle)
             .fontWeight(.bold)
     }

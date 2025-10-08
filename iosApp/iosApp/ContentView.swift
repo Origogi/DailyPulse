@@ -11,7 +11,23 @@ struct ComposeView: UIViewControllerRepresentable {
 }
 
 struct ContentView: View {
+    @State private var shouldOpenAbout = false
+
     var body: some View {
-        ArticlesScreen(viewModel: .init())
+        NavigationStack {
+            ArticlesScreen(viewModel: .init())
+                .toolbar {
+                    ToolbarItem {
+                        Button {
+                            shouldOpenAbout.toggle()
+                        } label: {
+                            Label("About", systemImage: "info.circle").labelStyle(.titleAndIcon)
+                        }
+                        .popover(isPresented: $shouldOpenAbout) {
+                            AboutScreen()
+                        }
+                    }
+                }
+        }
     }
 }
