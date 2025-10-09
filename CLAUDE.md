@@ -3,9 +3,11 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## 프로젝트 개요
-DailyPulse는 Kotlin Multiplatform (KMP)과 Compose Multiplatform을 사용하는 크로스 플랫폼 프로젝트입니다. Android와 iOS를 타겟으로 하며, Jetpack Compose 기반의 공유 UI를 사용합니다.
+DailyPulse는 Kotlin Multiplatform (KMP)과 Compose Multiplatform을 사용하는 크로스 플랫폼 뉴스 앱입니다. Android와 iOS를 타겟으로 하며, Jetpack Compose 기반의 공유 UI를 사용합니다.
 
 **학습 목적**: 이 프로젝트는 Kotlin Multiplatform 기술 스택을 학습하고 실습하기 위해 만들어졌습니다.
+
+**주요 기능**: NewsAPI를 통해 최신 뉴스 기사를 가져와 사용자에게 보여줍니다.
 
 ## 프로젝트 구조
 
@@ -71,6 +73,19 @@ xcrun simctl launch "DEVICE_ID" com.origogi.dailypulse.DailyPulse  # 앱 실행
 # Gradle 태스크 확인
 ./gradlew tasks
 ```
+
+## API 연동
+
+### NewsAPI
+- **용도**: 최신 뉴스 기사 데이터 가져오기
+- **공식 사이트**: https://newsapi.org/
+- **사용 엔드포인트**:
+  - `/v2/top-headlines`: 주요 헤드라인 기사
+  - `/v2/everything`: 키워드 기반 기사 검색
+- **API 키 관리**:
+  - API 키는 로컬 환경 설정 또는 안전한 방식으로 관리 필요
+  - 공개 리포지토리에 API 키 커밋 금지
+- **네트워크 라이브러리**: Ktor Client 사용
 
 ## 아키텍처 가이드
 
