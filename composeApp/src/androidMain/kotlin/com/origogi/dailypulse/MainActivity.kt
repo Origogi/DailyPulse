@@ -8,7 +8,6 @@ import androidx.activity.viewModels
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import com.origogi.dailypulse.articles.ArticleViewModel
-import com.origogi.dailypulse.screens.ArticlesScreen
 
 class MainActivity : ComponentActivity() {
 
@@ -21,7 +20,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 Surface {
-                    ArticlesScreen(articleViewModel)
+                    AppScaffold(
+                        articleViewModel = articleViewModel
+                    )
                 }
             }
         }

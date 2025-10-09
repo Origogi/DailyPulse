@@ -9,9 +9,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SegmentedButtonDefaults.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -29,22 +35,27 @@ import com.origogi.dailypulse.articles.ArticleViewModel
 
 @Composable
 fun ArticlesScreen(
+    onAboutClick: () -> Unit,
     articlesViewModel: ArticleViewModel
 ) {
     val state by articlesViewModel.articleState.collectAsState()
 
     ArticlesScreen(
-        state = state
+        state = state,
+        onAboutClick = onAboutClick
     )
 
 }
 
 @Composable
 private fun ArticlesScreen(
+    onAboutClick: () -> Unit,
     state: ArticleState
 ) {
     Column {
-        AppBar()
+        AppBar(
+            onAboutClick = onAboutClick
+        )
         when {
             state.isLoading -> Loader()
             state.error != null -> ErrorMessage(state.error)
@@ -57,10 +68,21 @@ private fun ArticlesScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AppBar() {
+private fun AppBar(onAboutClick: () -> Unit) {
     TopAppBar(
         title = {
             Text("Articles")
+        }
+        ,
+        actions = {
+            IconButton(
+                onClick = onAboutClick
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = "About"
+                )
+            }
         }
 
     )
@@ -148,6 +170,7 @@ private fun ErrorMessage(
 private fun ArticlesScreenPreview() {
     MaterialTheme {
         ArticlesScreen(
+            onAboutClick = {},
             state = ArticleState(
                 articles = listOf(
                     Article(
@@ -175,6 +198,7 @@ private fun ArticlesScreenPreview() {
 private fun ArticlesScreenLoadingPreview() {
     MaterialTheme {
         ArticlesScreen(
+            onAboutClick = {},
             state = ArticleState(
                 articles = emptyList(),
                 isLoading = true,
@@ -189,11 +213,13 @@ private fun ArticlesScreenLoadingPreview() {
 private fun ArticlesScreenErrorPreview() {
     MaterialTheme {
         ArticlesScreen(
+            onAboutClick = {},
             state = ArticleState(
                 articles = emptyList(),
                 isLoading = false,
                 error = "Failed to load articles"
             )
+
         )
     }
 }
