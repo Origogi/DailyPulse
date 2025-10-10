@@ -9,8 +9,18 @@ data class ArticleRaw(
     @SerialName("title")
     val title: String,
     @SerialName("description")
-    val desc: String,
+    val desc: String? = "",
     @SerialName("publishedAt")
-    val date: String, @SerialName("urlToImage")
-    val imageUrl: String
+    val date: String,
+    @SerialName("urlToImage")
+    val imageUrl: String? = ""
 )
+
+fun ArticleRaw.toArticle(): Article {
+    return Article(
+        title = title,
+        description = desc ?: "",
+        date = date,
+        imageUrl = imageUrl ?: ""
+    )
+}

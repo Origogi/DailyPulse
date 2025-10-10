@@ -11,4 +11,5 @@ data class ArticlesResponse(
     @SerialName("totalResults")
     val totalResults: Int,
     @SerialName("articles")
-    val articles: List<ArticleRaw>)
+    val articles: List<ArticleRaw>
+)

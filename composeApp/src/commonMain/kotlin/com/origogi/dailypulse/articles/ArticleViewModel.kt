@@ -1,7 +1,10 @@
 package com.origogi.dailypulse.articles
 
 import com.origogi.dailypulse.BaseViewModel
-import kotlinx.coroutines.delay
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,7 +23,23 @@ class ArticleViewModel : BaseViewModel() {
     private val _articleState: MutableStateFlow<ArticleState> = MutableStateFlow(ArticleState())
     val articleState: StateFlow<ArticleState> = _articleState.asStateFlow()
 
+    private val articlesUseCase: ArticlesUseCase
+
     init {
+        val httpClient = HttpClient {
+            install(ContentNegotiation) {
+                json(
+                    Json {
+                        ignoreUnknownKeys = true
+                        isLenient = true
+                        prettyPrint = true
+                    }
+                )
+            }
+        }
+        val articlesService = ArticlesService(httpClient)
+        articlesUseCase = ArticlesUseCase(articlesService)
+
         getArticles()
     }
 
@@ -28,50 +47,22 @@ class ArticleViewModel : BaseViewModel() {
         scope.launch {
             _articleState.update { it.copy(isLoading = true) }
 
-            _articleState.update {
-                ArticleState(
-                    articles = fetchArticles(),
-                    isLoading = false
-                )
+            try {
+                val articles = articlesUseCase()
+                _articleState.update {
+                    ArticleState(
+                        articles = articles,
+                        isLoading = false
+                    )
+                }
+            } catch (e: Exception) {
+                _articleState.update {
+                    ArticleState(
+                        isLoading = false,
+                        error = e.message
+                    )
+                }
             }
         }
     }
-
-    private suspend fun fetchArticles(): List<Article> {
-        delay(500)
-        return mockArticles
-    }
 }
-
-private val mockArticles = listOf(
-    Article(
-        title = "Robinhood Launches 24/7 Stock Trading",
-        description = "Robinhood introduces round-the-clock trading for select stocks, revolutionizing retail investing.",
-        date = "2025-10-02",
-        imageUrl = "https://byline.network/wp-content/uploads/2021/02/robinhood_logo_main-1280x720.jpg"
-    ),
-    Article(
-        title = "Robinhood Expands Cryptocurrency Offerings",
-        description = "Platform adds support for 15 new cryptocurrencies including emerging altcoins.",
-        date = "2025-10-01",
-        imageUrl = "https://byline.network/wp-content/uploads/2021/02/robinhood_logo_main-1280x720.jpg"
-    ),
-    Article(
-        title = "Robinhood Gold Membership Hits 2 Million Users",
-        description = "Premium subscription service sees massive growth as users seek advanced trading features.",
-        date = "2025-09-30",
-        imageUrl = "https://byline.network/wp-content/uploads/2021/02/robinhood_logo_main-1280x720.jpg"
-    ),
-    Article(
-        title = "Robinhood Partners with Major Banks",
-        description = "Strategic partnerships announced to enhance banking services and credit card offerings.",
-        date = "2025-09-29",
-        imageUrl = "https://byline.network/wp-content/uploads/2021/02/robinhood_logo_main-1280x720.jpg"
-    ),
-    Article(
-        title = "Robinhood Reports Record Trading Volume",
-        description = "Q3 earnings show unprecedented user engagement and trading activity on the platform.",
-        date = "2025-09-28",
-        imageUrl = "https://byline.network/wp-content/uploads/2021/02/robinhood_logo_main-1280x720.jpg"
-    )
-)

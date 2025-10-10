@@ -112,6 +112,11 @@ xcrun simctl launch "DEVICE_ID" com.origogi.dailypulse.DailyPulse  # 앱 실행
 - 리소스는 composeApp/src/commonMain/composeResources에 배치
 
 ## Claude Code 작업 지침
+- **종속성 수정 시**: gradle/libs.versions.toml 또는 build.gradle.kts를 수정한 경우 자동으로 다음 작업 수행
+  1. 변경사항 저장 후 즉시 `./gradlew :composeApp:assembleDebug` 실행하여 종속성 다운로드 및 빌드 확인
+  2. 빌드 성공 또는 에러 결과 간단히 보고
+  3. 사용자 피드백을 기다리지 않고 자동으로 진행
+
 - **iOS 빌드 및 실행 요청 시**: 사용자 피드백을 기다리지 말고 즉시 다음 작업을 수행
   1. 시뮬레이터 상태 확인 (필요시 부팅)
   2. clean build 실행
