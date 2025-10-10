@@ -1,5 +1,6 @@
 package com.origogi.dailypulse.articles
 
+import com.origogi.dailypulse.daysAgo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -20,7 +21,7 @@ fun ArticleRaw.toArticle(): Article {
     return Article(
         title = title,
         description = desc ?: "",
-        date = date,
+        date = date.daysAgo(),
         imageUrl = imageUrl ?: ""
     )
 }

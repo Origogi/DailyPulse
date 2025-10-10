@@ -106,21 +106,45 @@ private struct ErrorMessage: View {
 
 private struct ArticleItemView: View {
     var article: Article
+    private let fallbackImageUrl = "https://static.toss.im/png-icons/securities/icn-sec-fill-NAS0DHQ0D-E0.png"
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            AsyncImage(url: URL(string: article.imageUrl)) { phase in
+            GeometryReader { geometry in
+                AsyncImage(url: URL(string: article.imageUrl)) { phase in
 
-                if phase.image != nil {
-                    phase.image!
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                } else if phase.error != nil {
-                    Text("Image Load Error")
-                } else {
-                    ProgressView()
+                    if let image = phase.image {
+                        image
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: geometry.size.width, height: geometry.size.height)
+                            .clipped()
+                    } else if phase.error != nil {
+                        AsyncImage(url: URL(string: fallbackImageUrl)) { fallbackPhase in
+                            if let fallbackImage = fallbackPhase.image {
+                                fallbackImage
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: geometry.size.width, height: geometry.size.height)
+                                    .clipped()
+                            } else {
+                                Color.gray
+                                    .frame(width: geometry.size.width, height: geometry.size.height)
+                                    .overlay(
+                                        Text("Image Load Error")
+                                            .foregroundColor(.white)
+                                    )
+                            }
+                        }
+                    } else {
+                        ProgressView()
+                            .frame(width: geometry.size.width, height: geometry.size.height)
+                    }
                 }
             }
+            .aspectRatio(16/9, contentMode: .fit)
+            .id(article.imageUrl)
+
             Text(article.title)
                 .font(.title)
                 .fontWeight(.bold)
