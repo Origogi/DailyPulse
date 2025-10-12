@@ -20,7 +20,6 @@ import com.origogi.dailypulse.screens.Router
 
 @Composable
 fun AppScaffold(
-    articleViewModel: ArticleViewModel
 ) {
 
     val navController = rememberNavController()
@@ -28,7 +27,6 @@ fun AppScaffold(
     Scaffold { paddings ->
         AppNavHost(
             navHostController = navController,
-            articleViewModel = articleViewModel,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddings)
@@ -39,7 +37,6 @@ fun AppScaffold(
 @Composable
 fun AppNavHost(
     navHostController: NavHostController,
-    articleViewModel: ArticleViewModel,
     modifier: Modifier = Modifier,
 ) {
     NavHost(
@@ -78,7 +75,6 @@ fun AppNavHost(
                 onAboutClick = {
                     navHostController.navigate(Router.ABOUT.route)
                 },
-                articlesViewModel = articleViewModel
             )
         }
 

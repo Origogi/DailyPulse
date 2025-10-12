@@ -11,7 +11,7 @@ import com.origogi.dailypulse.articles.ArticleViewModel
 
 class MainActivity : ComponentActivity() {
 
-    private val articleViewModel: ArticleViewModel by viewModels()
+//    private val articleViewModel: ArticleViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -21,7 +21,6 @@ class MainActivity : ComponentActivity() {
             MaterialTheme {
                 Surface {
                     AppScaffold(
-                        articleViewModel = articleViewModel
                     )
                 }
             }

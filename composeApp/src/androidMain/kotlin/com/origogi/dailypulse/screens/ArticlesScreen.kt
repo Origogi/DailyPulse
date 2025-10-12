@@ -30,11 +30,12 @@ import coil3.compose.SubcomposeAsyncImage
 import com.origogi.dailypulse.articles.Article
 import com.origogi.dailypulse.articles.ArticleState
 import com.origogi.dailypulse.articles.ArticleViewModel
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun ArticlesScreen(
     onAboutClick: () -> Unit,
-    articlesViewModel: ArticleViewModel
+    articlesViewModel: ArticleViewModel = koinViewModel()
 ) {
     val state by articlesViewModel.articleState.collectAsState()
 

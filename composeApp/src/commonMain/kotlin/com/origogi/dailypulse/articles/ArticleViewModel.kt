@@ -18,28 +18,14 @@ data class ArticleState(
 
 )
 
-class ArticleViewModel : BaseViewModel() {
+class ArticleViewModel(
+    private val useCase: ArticlesUseCase
+) : BaseViewModel() {
 
     private val _articleState: MutableStateFlow<ArticleState> = MutableStateFlow(ArticleState())
     val articleState: StateFlow<ArticleState> = _articleState.asStateFlow()
 
-    private val articlesUseCase: ArticlesUseCase
-
     init {
-        val httpClient = HttpClient {
-            install(ContentNegotiation) {
-                json(
-                    Json {
-                        ignoreUnknownKeys = true
-                        isLenient = true
-                        prettyPrint = true
-                    }
-                )
-            }
-        }
-        val articlesService = ArticlesService(httpClient)
-        articlesUseCase = ArticlesUseCase(articlesService)
-
         getArticles()
     }
 
@@ -48,7 +34,7 @@ class ArticleViewModel : BaseViewModel() {
             _articleState.update { it.copy(isLoading = true) }
 
             try {
-                val articles = articlesUseCase()
+                val articles = useCase()
                 _articleState.update {
                     ArticleState(
                         articles = articles,
