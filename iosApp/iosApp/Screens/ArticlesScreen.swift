@@ -19,7 +19,7 @@ extension ArticlesScreen {
         private var closeable: Closeable?
 
         init() {
-            articleViewModel = ArticleViewModel()
+            articleViewModel = ArticlesInjector().articlesViewModel
             articleState = articleViewModel.articleState.value as! ArticleState
         }
 
