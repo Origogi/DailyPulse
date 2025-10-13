@@ -8,7 +8,15 @@ class ArticlesRepository(
     private val articlesService: ArticlesService
 ) {
 
-    suspend fun getArticles() : List<ArticleRaw> {
+    suspend fun getArticles(forceFetch : Boolean = false) : List<ArticleRaw> {
+        if (forceFetch) {
+            println("Force fetching from remote")
+            val remoteArticles = articlesService.fetchArticles()
+            articlesDataSource.clearArticles()
+            articlesDataSource.insertArticles(remoteArticles)
+            return remoteArticles
+        }
+
         val localArticles = articlesDataSource.getAllArticles()
         println("Local articles count: ${localArticles.size}")
         return localArticles.ifEmpty {

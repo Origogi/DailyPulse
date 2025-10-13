@@ -25,12 +25,22 @@ class ArticleViewModel(
         getArticles()
     }
 
-    private fun getArticles() {
+    fun getArticles(forceFetch: Boolean = false) {
         scope.launch {
-            _articleState.update { it.copy(isLoading = true) }
+            // Pull-to-refresh 시 기존 데이터 초기화
+            if (forceFetch) {
+                _articleState.update {
+                    ArticleState(
+                        articles = emptyList(),
+                        isLoading = true
+                    )
+                }
+            } else {
+                _articleState.update { it.copy(isLoading = true) }
+            }
 
             try {
-                val articles = useCase()
+                val articles = useCase(forceFetch)
                 _articleState.update {
                     ArticleState(
                         articles = articles,

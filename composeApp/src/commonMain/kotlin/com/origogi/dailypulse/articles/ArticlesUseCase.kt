@@ -5,8 +5,12 @@ import com.origogi.dailypulse.ArticlesRepository
 class ArticlesUseCase(
     private val repository: ArticlesRepository
 ) {
-    suspend operator fun invoke(): List<Article> {
-        return repository.getArticles().map { it.toArticle() }
+    suspend operator fun invoke(
+        forceFetch: Boolean = false
+    ): List<Article> {
+        return repository.getArticles(
+            forceFetch = forceFetch
+        ).map { it.toArticle() }
 
     }
 

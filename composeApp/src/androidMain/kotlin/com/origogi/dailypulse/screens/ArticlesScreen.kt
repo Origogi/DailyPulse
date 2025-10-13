@@ -18,6 +18,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -41,26 +42,35 @@ fun ArticlesScreen(
 
     ArticlesScreen(
         state = state,
-        onAboutClick = onAboutClick
+        onAboutClick = onAboutClick,
+        onRefresh = { articlesViewModel.getArticles(forceFetch = true) }
     )
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ArticlesScreen(
     onAboutClick: () -> Unit,
-    state: ArticleState
+    state: ArticleState,
+    onRefresh: () -> Unit
 ) {
     Column {
         AppBar(
             onAboutClick = onAboutClick
         )
-        when {
-            state.isLoading -> Loader()
-            state.error != null -> ErrorMessage(state.error)
-            state.articles.isNotEmpty() -> ArticlesListView(
-                articles = state.articles
-            )
+        PullToRefreshBox(
+            isRefreshing = state.isLoading,
+            onRefresh = onRefresh,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            when {
+                state.isLoading && state.articles.isEmpty() -> Loader()
+                state.error != null -> ErrorMessage(state.error)
+                state.articles.isNotEmpty() -> ArticlesListView(
+                    articles = state.articles
+                )
+            }
         }
     }
 }
@@ -180,6 +190,7 @@ private fun ArticlesScreenPreview() {
     MaterialTheme {
         ArticlesScreen(
             onAboutClick = {},
+            onRefresh = {},
             state = ArticleState(
                 articles = listOf(
                     Article(
@@ -208,6 +219,7 @@ private fun ArticlesScreenLoadingPreview() {
     MaterialTheme {
         ArticlesScreen(
             onAboutClick = {},
+            onRefresh = {},
             state = ArticleState(
                 articles = emptyList(),
                 isLoading = true,
@@ -223,6 +235,7 @@ private fun ArticlesScreenErrorPreview() {
     MaterialTheme {
         ArticlesScreen(
             onAboutClick = {},
+            onRefresh = {},
             state = ArticleState(
                 articles = emptyList(),
                 isLoading = false,
