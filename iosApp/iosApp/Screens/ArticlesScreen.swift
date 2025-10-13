@@ -22,6 +22,10 @@ extension ArticlesScreen {
             articleViewModel = ArticlesInjector().articlesViewModel
             articleState = articleViewModel.articleState.value as! ArticleState
         }
+        
+        func refresh() {
+            articleViewModel.getArticles(forceFetch: true)
+        }
 
         func startObserving() {
             closeable = FlowExtensionsKt.watch(articleViewModel.articleState) { [weak self] state in
@@ -69,6 +73,9 @@ struct ArticlesScreen: View {
                 }
             }
             .padding(.horizontal)
+        }
+        .refreshable {
+            viewModel.refresh()
         }
     }
 
