@@ -10,7 +10,9 @@ class ArticlesRepository(
 
     suspend fun getArticles() : List<ArticleRaw> {
         val localArticles = articlesDataSource.getAllArticles()
+        println("Local articles count: ${localArticles.size}")
         return localArticles.ifEmpty {
+            println("Fetching from remote")
             val remoteArticles = articlesService.fetchArticles()
             articlesDataSource.insertArticles(remoteArticles)
             remoteArticles
