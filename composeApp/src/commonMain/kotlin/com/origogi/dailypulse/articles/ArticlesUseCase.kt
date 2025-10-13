@@ -1,10 +1,13 @@
 package com.origogi.dailypulse.articles
 
+import com.origogi.dailypulse.ArticlesRepository
+
 class ArticlesUseCase(
-    private val service: ArticlesService
+    private val repository: ArticlesRepository
 ) {
     suspend operator fun invoke(): List<Article> {
-        return service.fetchArticles().map { it.toArticle() }
+        return repository.getArticles().map { it.toArticle() }
+
     }
 
 }

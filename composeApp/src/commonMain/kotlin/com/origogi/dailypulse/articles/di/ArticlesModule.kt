@@ -1,5 +1,7 @@
 package com.origogi.dailypulse.articles.di
 
+import com.origogi.dailypulse.ArticlesDataSource
+import com.origogi.dailypulse.ArticlesRepository
 import com.origogi.dailypulse.articles.ArticleViewModel
 import com.origogi.dailypulse.articles.ArticlesService
 import com.origogi.dailypulse.articles.ArticlesUseCase
@@ -14,5 +16,16 @@ val articlesModule = module {
     }
     single {
         ArticleViewModel(get())
+    }
+
+    single {
+        ArticlesDataSource(get())
+    }
+
+    single {
+        ArticlesRepository(
+            get(),
+            get()
+        )
     }
 }

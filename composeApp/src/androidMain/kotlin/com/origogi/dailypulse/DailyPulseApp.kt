@@ -1,6 +1,7 @@
 package com.origogi.dailypulse
 
 import android.app.Application
+import com.origogi.dailypulse.di.databaseModule
 import com.origogi.dailypulse.di.sharedKoinModules
 import com.origogi.dailypulse.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -14,7 +15,7 @@ class DailyPulseApp : Application() {
     }
 
     private fun initKoin() {
-        val modules = sharedKoinModules + viewModelModule
+        val modules = sharedKoinModules + viewModelModule + databaseModule
 
         startKoin {
             androidContext(this@DailyPulseApp)
